@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/Suad0/GrpcStreamer/api/proto"
+	pb "github.com/Suad0/GrpcStreamer/api/proto/generated"
 	"github.com/Suad0/GrpcStreamer/internal/service"
 
 	"google.golang.org/grpc"

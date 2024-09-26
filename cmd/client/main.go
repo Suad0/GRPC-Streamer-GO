@@ -2,23 +2,40 @@ package main
 
 import (
 	"context"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"io"
 	"log"
 	"os"
 
-	pb "github.com/Suad0/GrpcStreamer/api/proto"
-
-	"google.golang.org/grpc"
+	pb "github.com/Suad0/GrpcStreamer/api/proto/generated"
 )
 
 func main() {
-	conn, err := grpc.Dial(":50051", grpc.WithInsecure())
+
+	conn, err := grpc.NewClient(":50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to connect: %v", err)
 	}
+
 	defer conn.Close()
 
+	/*
+
+		conn, err := grpc.Dial(":50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+		if err != nil {
+			log.Fatalf("Failed to connect: %v", err)
+		}
+
+
+
+		defer conn.Close()
+
+	*/
+
 	client := pb.NewVideoStreamingClient(conn)
-	req := &pb.VideoRequest{VideoId: "example_video.mp4"}
+
+	req := &pb.VideoRequest{VideoId: "example_video"}
 
 	stream, err := client.StreamVideo(context.Background(), req)
 	if err != nil {
@@ -33,12 +50,14 @@ func main() {
 
 	for {
 		chunk, err := stream.Recv()
+		if err == io.EOF {
+			log.Println("Stream ended")
+			break
+		}
 		if err != nil {
 			log.Fatalf("Failed to receive chunk: %v", err)
 		}
-		if len(chunk.Data) == 0 {
-			break
-		}
+
 		_, err = file.Write(chunk.Data)
 		if err != nil {
 			log.Fatalf("Failed to write to file: %v", err)

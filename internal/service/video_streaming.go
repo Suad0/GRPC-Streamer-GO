@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/Suad0/GrpcStreamer/api/proto"
+	pb "github.com/Suad0/GrpcStreamer/api/proto/generated"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -16,7 +16,10 @@ type VideoStreamingService struct {
 }
 
 func (s *VideoStreamingService) StreamVideo(req *pb.VideoRequest, stream pb.VideoStreaming_StreamVideoServer) error {
-	videoPath := "./video/" + req.VideoId + ".mp4"
+	videoPath := "internal/video/" + req.VideoId + ".mp4"
+
+	print("StreamVideo wird aufgerufen")
+	print(req.VideoId)
 
 	file, err := os.Open(videoPath)
 	if err != nil {
