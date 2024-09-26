@@ -1,2 +1,52 @@
 *.mp4
 /Users/suad/ProjektePrivate/grpc-streamer/internal/video
+received_video
+
+# Go-specific
+*.a
+*.so
+*.dylib
+*.o
+*.h
+*.c
+*.go
+*.go.tmp
+*.swp
+*.DS_Store
+*.DS_Store.json
+
+# Compiled binaries
+bin/
+
+# Build artifacts
+build/
+pkg/
+
+# IDE-specific files
+*.swp
+*.bak
+*.tmp
+*.log
+*.sync
+*.vimrc
+*.gdbinfo
+
+# Test results
+coverage.txt
+cover.out
+.cover
+
+# IDE-specific files
+*.idea
+*.vscode
+
+# GoLand specific
+.idea
+*.iml
+*.iws
+
+# Visual Studio Code specific
+.vscode
+
+# Others
+.gitkeep
