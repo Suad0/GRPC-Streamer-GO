@@ -38,7 +38,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create file: %v", err)
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+
+		}
+	}(file)
 
 	var totalSize int64
 	var currentOffset int64
